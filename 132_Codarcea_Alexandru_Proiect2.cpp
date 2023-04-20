@@ -697,6 +697,11 @@ int main()
 
                     case 1:
                     {
+                        if (listaClase.size()==0)
+                        {
+                            clearScreen();
+                            break;
+                        }
                         clearScreen();
                         for(int i=0; i<listaClase.size(); i++)
                             cout<<i<<". "<<listaClase[i]<<endl;
@@ -762,10 +767,20 @@ int main()
 
                     case 2:
                     {
+                        int cnt5=0;
+
                         clearScreen();
                         for (int i=0; i<frecventa.size(); i++)
                             if (frecventa[i]==1)
+                            {
                                 cout<<i<<". "<<listaClase[i]<<endl;
+                                cnt5++;
+                            }
+                        if (cnt5==0)
+                        {
+                            clearScreen();
+                            break;
+                        }
 
                         cout<<"Introduceti nr-ul Clasei pentru anularea rezervarii curente (Banii va vor fi inapoiati integral, conform regulamentului va vom retine suma de 5 lei din suma originala. Pentru a anula procesul de anulare al rezervarii si pentru a pastra rezervarea curenta apsati tasta '-1': ";
 
@@ -854,6 +869,7 @@ int main()
                             nrLocuri=nrLocuri-1;
                             A.settNrLocuri(nrLocuri);
                             listaClase.push_back(A);
+                            frecventa.push_back(1);
                             clearScreen();
                             cout<<"Clasa dumneavoastra a fost realizata cu succes! Puteti privi mai jos detaliile Clasei."<<endl<<endl;
                             cout<<A<<endl;
