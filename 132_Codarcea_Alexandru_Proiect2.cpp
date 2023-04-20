@@ -771,7 +771,7 @@ int main()
 
                         clearScreen();
                         for (int i=0; i<frecventa.size(); i++)
-                            if (frecventa[i]==1)
+                            if (frecventa[i]==1 || frecventa[i]==2)
                             {
                                 cout<<i<<". "<<listaClase[i]<<endl;
                                 cnt5++;
@@ -794,10 +794,22 @@ int main()
                         }
                         else
                         {
+                            if(frecventa[nr]==1)
+                            {
+                                float bani=listaClase[nr].getPret();
+                                bani=bani+client1.getBuget()-5;
+                                client1.settBuget(bani);
+                            }
+
+                            if(frecventa[nr]==2)
+                            {
+                                float bani=500;
+                                bani=bani+client1.getBuget()-5;
+                                client1.settBuget(bani);
+                            }
+
                             frecventa[nr]=0;
-                            float bani=listaClase[nr].getPret();
-                            bani=bani+client1.getBuget()-5;
-                            client1.settBuget(bani);
+
                             vector <Membru> lista=listaClase[nr].getListaMembrii();
                             for(int j=0; j<lista.size(); j++)
                                 if(lista[j]==client1)
@@ -869,7 +881,7 @@ int main()
                             nrLocuri=nrLocuri-1;
                             A.settNrLocuri(nrLocuri);
                             listaClase.push_back(A);
-                            frecventa.push_back(1);
+                            frecventa.push_back(2);
                             clearScreen();
                             cout<<"Clasa dumneavoastra a fost realizata cu succes! Puteti privi mai jos detaliile Clasei."<<endl<<endl;
                             cout<<A<<endl;
@@ -1144,6 +1156,12 @@ int main()
                         int nr;
                         cin>>nr;
 
+                        if(listaMembrii[nr]==client1)
+                        {
+                            clearScreen();
+                            break;
+                        }
+
                         if(listaClase.size()!=0)
                         {
 
@@ -1211,6 +1229,39 @@ int main()
                         cout<<"Introduceti nr-ul clasei pe care doriti sa o eliminati: ";
                         int nr;
                         cin>>nr;
+
+                        for(int i=0; i<listaClase[nr].getListaMembrii().size(); i++)
+                            for(int j=0; j<listaMembrii.size(); j++)
+                                if(listaClase[nr].getListaMembrii()[i]==listaMembrii[j])
+                                {
+                                    if(listaMembrii[j]==client1)
+                                    {
+                                        if(frecventa[nr]==1)
+                                        {
+                                            float bani=listaClase[nr].getPret();
+                                            bani=bani+client1.getBuget();
+                                            client1.settBuget(bani);
+                                            listaMembrii[j].settBuget(bani);
+                                            frecventa[nr]=0;
+                                        }
+
+                                        if(frecventa[nr]==2)
+                                        {
+                                            float bani=500;
+                                            bani=bani+client1.getBuget();
+                                            client1.settBuget(bani);
+                                            frecventa[nr]=0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        float bani=listaClase[nr].getPret();
+                                        bani=bani+listaMembrii[j].getBuget();
+                                        listaMembrii[j].settBuget(bani);
+
+                                    }
+                                }
+
 
                         listaClase.erase(listaClase.begin()+nr);
                         frecventa.erase(frecventa.begin()+nr);
@@ -1570,7 +1621,7 @@ int main()
                                 if(dorinta==0)
 
                                 {
-                                    int cnt=0;
+                                    int cnt=0,cnt2=0;
 
                                     for(int i=0; i<listaMembrii.size(); i++)
                                         cout<<i<<". "<<listaMembrii[i]<<endl;
@@ -1580,27 +1631,54 @@ int main()
                                     cin>>nr27;
                                     cout<<endl;
                                     for(int i=0; i<listaClase[nr].getListaMembrii().size(); i++)
+                                    {
                                         if(listaMembrii[nr27]==listaClase[nr].getListaMembrii()[i])
                                         {
                                             cnt++;
                                         }
+                                        if(listaMembrii[nr27]==client1)
+                                        {
+                                            cnt2=1;
+                                        }
+                                    }
 
 
 
                                     if(listaMembrii[nr27].getBuget()>=listaClase[nr].getPret() && listaClase[nr].getValabilitate()==true && listaClase[nr].getNrLocuri()>0 && cnt==0)
                                     {
-                                        float suma=listaMembrii[nr27].getBuget()-listaClase[nr].getPret();
-                                        listaMembrii[nr27].settBuget(suma);
-                                        float bonus=listaClase[nr].getAntrenor()->getBonus();
-                                        bonus=bonus+10;
-                                        listaClase[nr].getAntrenor()->settBonus(bonus);
+                                        if(cnt2==1)
+                                        {
+                                            float suma=client1.getBuget()-listaClase[nr].getPret();
+                                            client1.settBuget(suma);
+                                            listaMembrii[nr27].settBuget(suma);
+                                            frecventa[nr]=1;
 
-                                        vector <Membru> lista;
-                                        lista=listaClase[nr].getListaMembrii();
-                                        lista.push_back(listaMembrii[nr27]);
-                                        listaClase[nr].settListaMembrii(lista);
-                                        int nr5=listaClase[nr].getNrLocuri()-1;
-                                        listaClase[nr].settNrLocuri(nr5);
+                                            float bonus=listaClase[nr].getAntrenor()->getBonus();
+                                            bonus=bonus+10;
+                                            listaClase[nr].getAntrenor()->settBonus(bonus);
+
+                                            vector <Membru> lista;
+                                            lista=listaClase[nr].getListaMembrii();
+                                            lista.push_back(listaMembrii[nr27]);
+                                            listaClase[nr].settListaMembrii(lista);
+                                            int nr5=listaClase[nr].getNrLocuri()-1;
+                                            listaClase[nr].settNrLocuri(nr5);
+                                        }
+                                        else
+                                        {
+                                            float suma=listaMembrii[nr27].getBuget()-listaClase[nr].getPret();
+                                            listaMembrii[nr27].settBuget(suma);
+                                            float bonus=listaClase[nr].getAntrenor()->getBonus();
+                                            bonus=bonus+10;
+                                            listaClase[nr].getAntrenor()->settBonus(bonus);
+
+                                            vector <Membru> lista;
+                                            lista=listaClase[nr].getListaMembrii();
+                                            lista.push_back(listaMembrii[nr27]);
+                                            listaClase[nr].settListaMembrii(lista);
+                                            int nr5=listaClase[nr].getNrLocuri()-1;
+                                            listaClase[nr].settNrLocuri(nr5);
+                                        }
                                     }
 
                                     else
@@ -1680,8 +1758,30 @@ int main()
                                     for(int i=0; i<listaMembrii.size(); i++)
                                         if(listaMembrii[i]==listaClase[nr].getListaMembrii()[nr2])
                                         {
-                                            float suma=listaMembrii[i].getBuget()+listaClase[nr].getPret();
-                                            listaMembrii[i].settBuget(suma);
+                                            if(listaMembrii[i]==client1)
+                                            {
+                                                if(frecventa[nr]==1)
+                                                {
+                                                    float suma=client1.getBuget()+listaClase[nr].getPret();
+                                                    client1.settBuget(suma);
+                                                    listaMembrii[i].settBuget(suma);
+                                                    frecventa[nr]=0;
+                                                }
+                                                if(frecventa[nr]==2)
+                                                {
+                                                    float suma=client1.getBuget()+500;
+                                                    client1.settBuget(suma);
+                                                    listaMembrii[i].settBuget(suma);
+                                                    frecventa[nr]=0;
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                float suma=listaMembrii[i].getBuget()+listaClase[nr].getPret();
+                                                listaMembrii[i].settBuget(suma);
+                                            }
+
                                         }
 
                                     lista.erase(lista.begin()+nr2);
@@ -1789,7 +1889,6 @@ int main()
 
     return 0;
 }
-
 
 
 
