@@ -767,7 +767,7 @@ int main()
 
                     case 2:
                     {
-                        int cnt5=0;
+                        int cnt5=0,cnt6=0;
 
                         clearScreen();
                         for (int i=0; i<frecventa.size(); i++)
@@ -786,7 +786,15 @@ int main()
 
                         int nr;
                         cin>>nr;
-                        if(nr==-1)
+
+                        for (int i=0; i<frecventa.size(); i++)
+                            if (frecventa[i]==1 || frecventa[i]==2)
+                            {
+                                if(i==nr)
+                                    cnt6++;
+                            }
+
+                        if(nr==-1 || cnt6==0)
                         {
                             clearScreen();
                             break;
@@ -1889,7 +1897,6 @@ int main()
 
     return 0;
 }
-
 
 
 
