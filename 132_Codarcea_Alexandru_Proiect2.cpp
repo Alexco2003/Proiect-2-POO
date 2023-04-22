@@ -924,15 +924,18 @@ int main()
                             cout<<"Introduceti suma pe care doriti sa o adaugati la bugetul curent: ";
                             float suma,buget;
                             cin>>suma;
-                            buget=client1.getBuget();
-                            buget=suma+buget;
-                            client1.settBuget(buget);
-                            for(int i=0; i<listaMembrii.size(); i++)
-                                if(listaMembrii[i]==client1)
-                                {
-                                    float suma1=client1.getBuget();
-                                    listaMembrii[i].settBuget(suma1);
-                                }
+                            if(suma>=0)
+                            {
+                                buget=client1.getBuget();
+                                buget=suma+buget;
+                                client1.settBuget(buget);
+                                for(int i=0; i<listaMembrii.size(); i++)
+                                    if(listaMembrii[i]==client1)
+                                    {
+                                        float suma1=client1.getBuget();
+                                        listaMembrii[i].settBuget(suma1);
+                                    }
+                            }
 
 
                         }
@@ -942,21 +945,27 @@ int main()
                             float suma,buget;
 
                             cin>>suma;
-                            if (suma<client1.getBuget())
+                            if(suma>=0)
                             {
-                                buget=client1.getBuget();
-                                buget=buget-suma;
-                                client1.settBuget(buget);
-                                for(int i=0; i<listaMembrii.size(); i++)
-                                    if(listaMembrii[i]==client1)
-                                    {
-                                        float suma1=client1.getBuget();
-                                        listaMembrii[i].settBuget(suma1);
-                                    }
 
+
+                                if (suma<client1.getBuget())
+                                {
+                                    buget=client1.getBuget();
+                                    buget=buget-suma;
+                                    client1.settBuget(buget);
+                                    for(int i=0; i<listaMembrii.size(); i++)
+                                        if(listaMembrii[i]==client1)
+                                        {
+                                            float suma1=client1.getBuget();
+                                            listaMembrii[i].settBuget(suma1);
+                                        }
+
+                                }
+
+                                else
+                                    cnt++;
                             }
-                            else
-                                cnt++;
 
 
 
