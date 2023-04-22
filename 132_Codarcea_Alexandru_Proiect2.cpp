@@ -1312,17 +1312,24 @@ int main()
                         float suma;
                         cin>>suma;
                         cout<<endl;
-                        if(x=='+')
+
+                        if(suma>=0)
                         {
-                            float bonus=listaAntrenori[nr].getBonus();
-                            bonus=bonus+suma;
-                            listaAntrenori[nr].settBonus(bonus);
-                        }
-                        if(x=='-')
-                        {
-                            float bonus=listaAntrenori[nr].getBonus();
-                            bonus=bonus-suma;
-                            listaAntrenori[nr].settBonus(bonus);
+
+
+                            if(x=='+')
+                            {
+                                float bonus=listaAntrenori[nr].getBonus();
+                                bonus=bonus+suma;
+                                listaAntrenori[nr].settBonus(bonus);
+                            }
+                            if(x=='-')
+                            {
+                                float bonus=listaAntrenori[nr].getBonus();
+                                bonus=bonus-suma;
+                                listaAntrenori[nr].settBonus(bonus);
+                            }
+
                         }
 
 
